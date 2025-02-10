@@ -4,6 +4,7 @@ IOC Tracking and Email Notification System
 
 # 📌 Overview
 This project automates the tracking of Indicators of Compromise (IOCs) by:
+
 ✅ Reanalyzing IOCs in VirusTotal before fetching updated threat scores
 ✅ Checking FireEye & McAfee detections (for SHA256 IOCs)
 ✅ Updating an Excel sheet with the latest IOC scores
@@ -35,11 +36,14 @@ This project automates the tracking of Indicators of Compromise (IOCs) by:
       DateName of AnalystMalware NameIOCIOC ValueCurrent ScoreStatus
       The script updates the "Current Score" based on VirusTotal results.
       If an IOC exceeds the malicious threshold (5), it is flagged for review.
+      
   2️⃣ Run the Script
       python ioc_tracker.py  
+      
   3️⃣ User Prompt for Malicious IOCs
       Yes → Removes malicious IOCs from tracking.
       No → Updates their status to "Malicious".
+      
   4️⃣ Email Notification
   Sends an Outlook email with:
       A table of flagged IOCs
@@ -50,18 +54,23 @@ This project automates the tracking of Indicators of Compromise (IOCs) by:
   Step 1: Read IOC Data
   Loads ioc_tracking.xlsx into a Pandas DataFrame
   Iterates through each IOC
+  
   Step 2: Reanalyze IOC in VirusTotal
   Calls VirusTotal API to request reanalysis
   Waits up to 100 seconds for the latest results
+  
   Step 3: Fetch Updated Score
   Gets the latest malicious score from VirusTotal
   Extracts FireEye & McAfee detection results for SHA256 IOCs
+  
   Step 4: Determine Malicious IOCs
   If score ≥ 5, the IOC is flagged
   If SHA256 is detected by FireEye & McAfee, it is excluded from blocking
+  
   Step 5: Prompt User for Removal
   If Yes, remove malicious IOCs from Excel
   If No, update their status to "Malicious"
+  
   Step 6: Send Email Notification
   Includes flagged IOCs in a formatted table
   
@@ -70,16 +79,23 @@ Uses Outlook to send the email
 
 # 🔄 API Response Handling
 Reanalysis & Score Fetching
+
 Reanalysis Request: POST /analyse
+
 Fetching Latest Score: GET /domains/{ioc}
+
 Error Handling:
 Error CodeHandling Strategy404IOC not found → Set score to 0429Rate limit exceeded → Wait 30 seconds and retry500API failure → Skip IOC and log error
 
 # 📂 Code Structure
 ioc-tracking/
+
 │── ioc_tracker.py   # Main script
+
 │── utils.py         # Helper functions (API handling, email formatting)
+
 │── ioc_tracking.xlsx # Input Excel file
+
 │── README.md        # Documentation
 
 # 📈 Future Improvements
